@@ -2,38 +2,45 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Азяр | Апгрейд</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>APGRADE | Азяр</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            /* Premium Dark Mode Palette */
+            --bg-primary: #0A0A0A;
+            --bg-secondary: #1C1C1E;
+            --bg-tertiary: #2C2C2E;
+            --accent: #00D4FF;
+            --accent-glow: rgba(0, 212, 255, 0.3);
+            --text-primary: #FFFFFF;
+            --text-secondary: #8E8E93;
+            --text-tertiary: #636366;
+            --success: #30D158;
+            --warning: #FF9F0A;
+            --glass-bg: rgba(28, 28, 30, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 30px var(--accent-glow);
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-        
-        :root {
-            --primary: #FF6B35;
-            --primary-dark: #E55A2B;
-            --secondary: #1A1A2E;
-            --accent: #16213E;
-            --gold: #FFD700;
-            --success: #4CAF50;
-            --bg: #0F0F1A;
-            --card-bg: #1A1A2E;
-            --text: #FFFFFF;
-            --text-secondary: #A0A0B0;
-            --gradient: linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%);
-            --gradient-dark: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg);
-            color: var(--text);
+            background: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
         
         .app-container {
@@ -41,17 +48,18 @@
             margin: 0 auto;
             min-height: 100vh;
             position: relative;
-            padding-bottom: 80px;
+            padding-bottom: calc(80px + env(safe-area-inset-bottom));
         }
         
         /* Header */
         .header {
-            background: var(--gradient-dark);
-            padding: 20px;
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            background: linear-gradient(180deg, var(--bg-primary) 0%, rgba(10, 10, 10, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--glass-border);
         }
         
         .header-content {
@@ -67,36 +75,44 @@
         }
         
         .logo-icon {
-            width: 42px;
-            height: 42px;
-            background: var(--gradient);
-            border-radius: 12px;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent) 0%, #0099CC 100%);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            font-size: 18px;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+        
+        .logo-icon svg {
+            width: 20px;
+            height: 20px;
+            color: var(--bg-primary);
         }
         
         .logo-text {
             font-weight: 700;
-            font-size: 18px;
+            font-size: 20px;
+            letter-spacing: -0.5px;
         }
         
         .logo-text span {
-            color: var(--primary);
+            color: var(--accent);
         }
         
         .user-avatar {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            background: var(--gradient);
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
             font-size: 14px;
+            color: var(--accent);
         }
         
         /* Screens */
@@ -114,125 +130,196 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Dashboard */
+        /* Dashboard Hero */
         .hero-section {
-            background: var(--gradient-dark);
             padding: 24px 20px;
             position: relative;
-            overflow: hidden;
-        }
-        
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(255,107,53,0.15) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 1;
         }
         
         .welcome-text {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-secondary);
-            margin-bottom: 8px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .hero-title {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
-            line-height: 1.3;
-            margin-bottom: 20px;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
         }
         
         .hero-title span {
-            color: var(--primary);
+            color: var(--accent);
         }
         
-        .azyar-card {
-            background: var(--card-bg);
+        /* Facepile - Social Proof */
+        .facepile-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .facepile {
+            display: flex;
+        }
+        
+        .facepile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--bg-primary);
+            margin-left: -8px;
+            background: var(--bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .facepile-avatar:first-child {
+            margin-left: 0;
+        }
+        
+        .facepile-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .facepile-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .facepile-text strong {
+            color: var(--text-primary);
+        }
+        
+        /* Glass Card */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 20px;
+        }
+        
+        /* Profile Card */
+        .profile-card {
             display: flex;
             align-items: center;
             gap: 16px;
-            border: 1px solid rgba(255,255,255,0.05);
         }
         
-        .azyar-photo {
-            width: 80px;
-            height: 80px;
+        .profile-image {
+            width: 72px;
+            height: 72px;
             border-radius: 16px;
             object-fit: cover;
-            border: 3px solid var(--primary);
+            border: 2px solid var(--accent);
         }
         
-        .azyar-info h3 {
-            font-size: 16px;
+        .profile-info h3 {
+            font-size: 17px;
             font-weight: 600;
             margin-bottom: 4px;
         }
         
-        .azyar-info p {
-            font-size: 12px;
+        .profile-info p {
+            font-size: 13px;
             color: var(--text-secondary);
-            line-height: 1.5;
+            line-height: 1.4;
         }
         
-        .stats-row {
+        .profile-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 8px;
+            padding: 4px 10px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 20px;
+            font-size: 11px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 12px;
-            padding: 20px;
+            padding: 0 20px;
+            margin-bottom: 24px;
         }
         
-        .stat-card {
-            background: var(--card-bg);
+        .stat-item {
+            background: var(--bg-secondary);
             border-radius: 16px;
             padding: 16px 12px;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.05);
         }
         
-        .stat-number {
-            font-size: 22px;
+        .stat-value {
+            font-size: 24px;
             font-weight: 700;
-            color: var(--primary);
+            color: var(--accent);
             margin-bottom: 4px;
         }
         
         .stat-label {
             font-size: 11px;
             color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         /* Section Title */
-        .section-title {
-            padding: 20px 20px 12px;
-            font-size: 18px;
-            font-weight: 700;
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            margin-bottom: 16px;
         }
         
-        /* Products */
-        .products-grid {
-            padding: 0 20px 20px;
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .section-link {
+            font-size: 14px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        /* Product Cards */
+        .products-list {
+            padding: 0 20px;
             display: flex;
             flex-direction: column;
             gap: 16px;
+            margin-bottom: 24px;
         }
         
         .product-card {
-            background: var(--card-bg);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: transform 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         
         .product-card:active {
@@ -241,12 +328,10 @@
         
         .product-image {
             width: 100%;
-            height: 160px;
-            background: var(--gradient-dark);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            height: 180px;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
             position: relative;
+            overflow: hidden;
         }
         
         .product-image img {
@@ -259,11 +344,14 @@
             position: absolute;
             top: 12px;
             left: 12px;
-            background: var(--gradient);
             padding: 6px 12px;
+            background: var(--accent);
             border-radius: 20px;
             font-size: 11px;
             font-weight: 600;
+            color: var(--bg-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .product-content {
@@ -271,13 +359,13 @@
         }
         
         .product-title {
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 600;
             margin-bottom: 8px;
         }
         
         .product-desc {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--text-secondary);
             margin-bottom: 16px;
             line-height: 1.5;
@@ -292,188 +380,169 @@
         .product-price {
             font-size: 20px;
             font-weight: 700;
-            color: var(--primary);
         }
         
-        .product-price span {
+        .product-price .old {
             font-size: 14px;
-            color: var(--text-secondary);
+            color: var(--text-tertiary);
             text-decoration: line-through;
             margin-left: 8px;
+            font-weight: 400;
         }
         
+        /* Buttons */
         .btn-primary {
-            background: var(--gradient);
-            color: white;
+            background: var(--accent);
+            color: var(--bg-primary);
             border: none;
             padding: 12px 24px;
             border-radius: 12px;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .btn-primary:active {
-            opacity: 0.8;
-        }
-        
-        /* Privatka Module */
-        .privatka-hero {
-            background: var(--gradient);
-            padding: 30px 20px;
-            text-align: center;
-        }
-        
-        .privatka-hero h2 {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-        
-        .privatka-hero p {
-            font-size: 14px;
+            transform: scale(0.96);
             opacity: 0.9;
         }
         
-        .privatka-status {
-            padding: 20px;
-        }
-        
-        .status-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 24px;
-            text-align: center;
-            border: 2px solid var(--success);
-        }
-        
-        .status-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(76, 175, 80, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 16px;
-            font-size: 28px;
-        }
-        
-        .status-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        
-        .status-text {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-        }
-        
-        .timer-box {
-            background: rgba(255,255,255,0.05);
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+            padding: 12px 24px;
             border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 20px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
         }
         
-        .timer-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
+        .btn-secondary:active {
+            background: var(--bg-secondary);
         }
         
-        .timer-value {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--primary);
-            font-family: monospace;
-        }
-        
-        /* Tracker */
+        /* Tracker Screen */
         .tracker-header {
-            background: var(--gradient-dark);
             padding: 24px 20px;
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
         }
         
         .tracker-date {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-secondary);
-            margin-bottom: 8px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
-        .tracker-progress {
+        .progress-ring-container {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 20px;
         }
         
-        .progress-circle {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: conic-gradient(var(--primary) 0% 65%, rgba(255,255,255,0.1) 65% 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .progress-ring {
             position: relative;
+            width: 100px;
+            height: 100px;
         }
         
-        .progress-circle::before {
-            content: '';
-            position: absolute;
-            width: 56px;
-            height: 56px;
-            background: var(--bg);
-            border-radius: 50%;
+        .progress-ring svg {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-bg {
+            fill: none;
+            stroke: var(--bg-tertiary);
+            stroke-width: 8;
+        }
+        
+        .progress-ring-fill {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease;
         }
         
         .progress-text {
-            position: relative;
-            font-size: 18px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
             font-weight: 700;
+            color: var(--accent);
         }
         
         .progress-info h3 {
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 600;
+            margin-bottom: 4px;
         }
         
         .progress-info p {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--text-secondary);
         }
         
+        /* Habit Cards */
         .habits-list {
-            padding: 20px;
+            padding: 0 20px;
         }
         
-        .habit-item {
-            background: var(--card-bg);
+        .habit-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
             border-radius: 16px;
             padding: 16px;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 16px;
-            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.2s;
+        }
+        
+        .habit-card:active {
+            transform: scale(0.98);
         }
         
         .habit-checkbox {
             width: 28px;
             height: 28px;
-            border: 2px solid var(--primary);
+            border: 2px solid var(--text-tertiary);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             flex-shrink: 0;
+            transition: all 0.3s;
         }
         
         .habit-checkbox.checked {
-            background: var(--primary);
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+        
+        .habit-checkbox.checked svg {
+            width: 16px;
+            height: 16px;
+            color: var(--bg-primary);
+            animation: checkmark 0.3s ease;
+        }
+        
+        @keyframes checkmark {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
         
         .habit-content {
@@ -481,69 +550,83 @@
         }
         
         .habit-title {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
             margin-bottom: 4px;
         }
         
         .habit-streak {
             font-size: 12px;
-            color: var(--gold);
+            color: var(--warning);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .habit-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-tertiary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
         }
         
         /* Knowledge Base */
-        .knowledge-categories {
-            padding: 20px;
+        .categories-scroll {
             display: flex;
-            gap: 12px;
+            gap: 8px;
+            padding: 0 20px;
+            margin-bottom: 16px;
             overflow-x: auto;
             scrollbar-width: none;
         }
         
-        .knowledge-categories::-webkit-scrollbar {
+        .categories-scroll::-webkit-scrollbar {
             display: none;
         }
         
         .category-chip {
-            background: var(--card-bg);
             padding: 10px 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 500;
             white-space: nowrap;
-            border: 1px solid rgba(255,255,255,0.05);
             cursor: pointer;
+            transition: all 0.2s;
         }
         
         .category-chip.active {
-            background: var(--gradient);
-            border-color: transparent;
-        }
-        
-        .materials-list {
-            padding: 0 20px 20px;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-color: var(--accent);
         }
         
         .material-card {
-            background: var(--card-bg);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
             border-radius: 16px;
             padding: 16px;
-            margin-bottom: 12px;
+            margin: 0 20px 12px;
             display: flex;
+            align-items: center;
             gap: 16px;
-            border: 1px solid rgba(255,255,255,0.05);
         }
         
         .material-icon {
-            width: 56px;
-            height: 56px;
-            background: var(--gradient);
+            width: 48px;
+            height: 48px;
+            background: var(--bg-tertiary);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            flex-shrink: 0;
+            color: var(--accent);
         }
         
         .material-content {
@@ -551,101 +634,201 @@
         }
         
         .material-title {
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 15px;
+            font-weight: 500;
             margin-bottom: 4px;
         }
         
         .material-meta {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-secondary);
-            margin-bottom: 8px;
         }
         
         .material-progress {
-            height: 4px;
-            background: rgba(255,255,255,0.1);
+            height: 3px;
+            background: var(--bg-tertiary);
             border-radius: 2px;
             overflow: hidden;
+            margin-top: 8px;
         }
         
         .material-progress-bar {
             height: 100%;
-            background: var(--gradient);
+            background: var(--accent);
             border-radius: 2px;
+            transition: width 0.3s;
         }
         
-        /* Profile */
-        .profile-header {
-            background: var(--gradient-dark);
-            padding: 30px 20px;
+        /* Privatka Screen */
+        .privatka-hero {
+            padding: 32px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        }
+        
+        .privatka-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent) 0%, #0099CC 100%);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: var(--shadow-glow);
+        }
+        
+        .privatka-icon svg {
+            width: 40px;
+            height: 40px;
+            color: var(--bg-primary);
+        }
+        
+        .privatka-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .privatka-subtitle {
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+        
+        .subscription-card {
+            margin: 0 20px 24px;
             text-align: center;
         }
         
-        .profile-avatar {
+        .subscription-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(48, 209, 88, 0.1);
+            border: 1px solid var(--success);
+            border-radius: 20px;
+            font-size: 14px;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+        
+        .timer-display {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent);
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -1px;
+        }
+        
+        .timer-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+        
+        /* Profile Screen */
+        .profile-hero {
+            padding: 40px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        }
+        
+        .profile-avatar-large {
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            background: var(--gradient);
+            background: linear-gradient(135deg, var(--accent) 0%, #0099CC 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 16px;
-            font-size: 40px;
+            font-size: 36px;
             font-weight: 700;
-            border: 4px solid var(--primary);
+            color: var(--bg-primary);
+            border: 3px solid var(--accent);
+            box-shadow: var(--shadow-glow);
         }
         
         .profile-name {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
             margin-bottom: 4px;
         }
         
         .profile-status {
-            font-size: 14px;
+            font-size: 15px;
             color: var(--text-secondary);
         }
         
-        .profile-menu {
-            padding: 20px;
+        .menu-list {
+            padding: 0 20px;
         }
         
         .menu-item {
-            background: var(--card-bg);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
             border-radius: 16px;
-            padding: 16px 20px;
+            padding: 16px;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 16px;
-            border: 1px solid rgba(255,255,255,0.05);
             cursor: pointer;
+            transition: all 0.2s;
         }
         
-        .menu-icon {
-            width: 44px;
-            height: 44px;
-            background: rgba(255,107,53,0.15);
-            border-radius: 12px;
+        .menu-item:active {
+            transform: scale(0.98);
+            background: var(--bg-secondary);
+        }
+        
+        .menu-icon-box {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-tertiary);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            color: var(--accent);
         }
         
-        .menu-content {
+        .menu-text {
             flex: 1;
-        }
-        
-        .menu-title {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 500;
         }
         
         .menu-arrow {
-            font-size: 20px;
-            color: var(--text-secondary);
+            color: var(--text-tertiary);
+        }
+        
+        /* Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            padding: 20px;
+        }
+        
+        .social-link {
+            width: 48px;
+            height: 48px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+        
+        .social-link:active {
+            transform: scale(0.95);
+            background: var(--bg-secondary);
         }
         
         /* Bottom Navigation */
@@ -656,12 +839,12 @@
             transform: translateX(-50%);
             width: 100%;
             max-width: 430px;
-            background: rgba(26, 26, 46, 0.95);
+            background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid var(--glass-border);
             display: flex;
             justify-content: space-around;
-            padding: 12px 0 20px;
+            padding: 12px 0 calc(20px + env(safe-area-inset-bottom));
             z-index: 1000;
         }
         
@@ -670,151 +853,26 @@
             flex-direction: column;
             align-items: center;
             gap: 4px;
-            padding: 8px 16px;
+            padding: 8px 12px;
             cursor: pointer;
-            color: var(--text-secondary);
+            color: var(--text-tertiary);
             transition: color 0.2s;
+            border: none;
+            background: transparent;
         }
         
         .nav-item.active {
-            color: var(--primary);
+            color: var(--accent);
         }
         
         .nav-icon {
-            font-size: 24px;
+            width: 24px;
+            height: 24px;
         }
         
         .nav-label {
             font-size: 11px;
             font-weight: 500;
-        }
-        
-        /* Social Links */
-        .social-links {
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-        }
-        
-        .social-link {
-            width: 50px;
-            height: 50px;
-            background: var(--card-bg);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            border: 1px solid rgba(255,255,255,0.05);
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        
-        .social-link:active {
-            transform: scale(0.95);
-        }
-        
-        /* Quote Card */
-        .quote-card {
-            background: var(--gradient);
-            border-radius: 20px;
-            padding: 24px;
-            margin: 0 20px 20px;
-            position: relative;
-        }
-        
-        .quote-text {
-            font-size: 16px;
-            font-weight: 500;
-            line-height: 1.6;
-            font-style: italic;
-            margin-bottom: 16px;
-        }
-        
-        .quote-author {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        
-        /* Achievements */
-        .achievements-grid {
-            padding: 0 20px 20px;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-        
-        .achievement-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        
-        .achievement-icon {
-            font-size: 32px;
-            margin-bottom: 12px;
-        }
-        
-        .achievement-title {
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        
-        .achievement-desc {
-            font-size: 11px;
-            color: var(--text-secondary);
-        }
-        
-        /* Loading */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-        }
-        
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(255,107,53,0.2);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--card-bg);
-            padding: 16px 24px;
-            border-radius: 12px;
-            font-size: 14px;
-            opacity: 0;
-            transition: all 0.3s;
-            z-index: 9999;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
         }
         
         /* Modal */
@@ -824,12 +882,11 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.8);
             display: none;
-            align-items: center;
+            align-items: flex-end;
             justify-content: center;
             z-index: 9999;
-            padding: 20px;
         }
         
         .modal.show {
@@ -837,18 +894,18 @@
         }
         
         .modal-content {
-            background: var(--card-bg);
-            border-radius: 24px;
+            background: var(--bg-secondary);
+            border-radius: 24px 24px 0 0;
             width: 100%;
-            max-width: 360px;
+            max-width: 430px;
             max-height: 80vh;
             overflow-y: auto;
-            animation: modalIn 0.3s ease;
+            animation: slideUp 0.3s ease;
         }
         
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
         }
         
         .modal-header {
@@ -856,7 +913,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid var(--glass-border);
         }
         
         .modal-header h3 {
@@ -868,85 +925,114 @@
             background: none;
             border: none;
             color: var(--text-secondary);
-            font-size: 20px;
             cursor: pointer;
+            padding: 8px;
         }
         
         .modal-body {
-            padding: 24px;
-            text-align: center;
+            padding: 24px 20px;
         }
         
-        .about-logo {
+        /* Quote Card */
+        .quote-card {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 24px;
+            margin: 0 20px 24px;
+            position: relative;
+        }
+        
+        .quote-card::before {
+            content: '"';
+            position: absolute;
+            top: 16px;
+            left: 20px;
+            font-size: 48px;
+            color: var(--accent);
+            opacity: 0.3;
+            font-family: Georgia, serif;
+        }
+        
+        .quote-text {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .quote-author {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        /* Loading */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            gap: 20px;
+        }
+        
+        .loading-logo {
             width: 60px;
             height: 60px;
-            background: var(--gradient);
+            background: linear-gradient(135deg, var(--accent) 0%, #0099CC 100%);
             border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
-            font-weight: 800;
-            margin: 0 auto 16px;
+            animation: pulse 2s infinite;
         }
         
-        .about-title {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 20px;
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
         }
         
-        .about-title span {
-            color: var(--primary);
-        }
-        
-        .about-text {
+        .loading-text {
             font-size: 14px;
             color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 16px;
         }
         
-        .about-stats {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin: 24px 0;
-            padding: 20px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 16px;
-        }
-        
-        .about-stat-num {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        .about-stat-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-        
-        .about-links {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-top: 24px;
-        }
-        
-        .about-links a {
-            color: var(--primary);
-            text-decoration: none;
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--bg-secondary);
+            padding: 16px 24px;
+            border-radius: 12px;
             font-size: 14px;
-            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 9999;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
         }
     </style>
 </head>
 <body>
     <div class="loading-overlay" id="loading">
-        <div class="loading-spinner"></div>
+        <div class="loading-logo">
+            <i data-lucide="arrow-up-circle"></i>
+        </div>
+        <div class="loading-text">APGRADE</div>
     </div>
 
     <div class="app-container">
@@ -954,8 +1040,10 @@
         <header class="header">
             <div class="header-content">
                 <div class="logo">
-                    <div class="logo-icon">↑</div>
-                    <div class="logo-text">Азяр <span>Апгрейд</span></div>
+                    <div class="logo-icon">
+                        <i data-lucide="arrow-up-circle"></i>
+                    </div>
+                    <div class="logo-text">AP<span>GRADE</span></div>
                 </div>
                 <div class="user-avatar" id="userAvatar">А</div>
             </div>
@@ -964,122 +1052,144 @@
         <!-- Dashboard Screen -->
         <div class="screen active" id="screen-dashboard">
             <div class="hero-section">
-                <div class="hero-content">
-                    <p class="welcome-text">Добро пожаловать</p>
-                    <h1 class="hero-title">Время твоего <span>апгрейда</span> начинается сейчас</h1>
-                    <div class="azyar-card">
-                        <img src="images/azyar-photo1.jpg" alt="Азяр" class="azyar-photo">
-                        <div class="azyar-info">
-                            <h3>Азяр Мамедов</h3>
-                            <p>Основатель и голос проектов АПГРЕЙД – 5 МЛН | Мотиватор | Тот, которого ты часто слышишь 🎧</p>
+                <p class="welcome-text">Добро пожаловать</p>
+                <h1 class="hero-title">Время твоего<br><span>апгрейда</span></h1>
+                
+                <!-- Facepile -->
+                <div class="facepile-container">
+                    <div class="facepile">
+                        <div class="facepile-avatar"><img src="images/azyar-photo1.jpg" alt=""></div>
+                        <div class="facepile-avatar"><img src="images/azyar-photo2.jpg" alt=""></div>
+                        <div class="facepile-avatar">+5K</div>
+                    </div>
+                    <div class="facepile-text"><strong>5,000+</strong> участников</div>
+                </div>
+                
+                <!-- Profile Card -->
+                <div class="glass-card profile-card">
+                    <img src="images/azyar-photo1.jpg" alt="Азяр" class="profile-image">
+                    <div class="profile-info">
+                        <h3>Азяр Мамедов</h3>
+                        <p>Основатель и голос проектов АПГРЕЙД</p>
+                        <div class="profile-badge">
+                            <i data-lucide="verified" style="width:12px;height:12px;"></i>
+                            Проверено
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="stats-row">
-                <div class="stat-card">
-                    <div class="stat-number">5M+</div>
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value">5M+</div>
                     <div class="stat-label">Подписчиков</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number">12K+</div>
+                <div class="stat-item">
+                    <div class="stat-value">12K</div>
                     <div class="stat-label">В Telegram</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number">2.9M</div>
+                <div class="stat-item">
+                    <div class="stat-value">2.9M</div>
                     <div class="stat-label">Лайков</div>
                 </div>
             </div>
 
-            <h2 class="section-title">Мотивация дня</h2>
+            <!-- Quote -->
             <div class="quote-card">
-                <p class="quote-text">"Твой голос — это твоя суперсила. Когда ты звучишь уверенно, мир начинает слушать."</p>
+                <p class="quote-text">Твой голос — это твоя суперсила. Когда ты звучишь уверенно, мир начинает слушать.</p>
                 <p class="quote-author">— Азяр Мамедов</p>
             </div>
 
-            <h2 class="section-title">Достижения</h2>
-            <div class="achievements-grid">
-                <div class="achievement-card">
-                    <div class="achievement-icon">🎯</div>
-                    <div class="achievement-title">Целеустремленный</div>
-                    <div class="achievement-desc">7 дней подряд</div>
-                </div>
-                <div class="achievement-card">
-                    <div class="achievement-icon">🔥</div>
-                    <div class="achievement-title">На пути к успеху</div>
-                    <div class="achievement-desc">Первая покупка</div>
+            <!-- Section Title -->
+            <div class="section-header">
+                <h2 class="section-title">Продукты</h2>
+                <div class="section-link" onclick="showScreen('products', document.querySelector('[data-screen=products]'))">
+                    Все
+                    <i data-lucide="chevron-right" style="width:16px;height:16px;"></i>
                 </div>
             </div>
 
-            <h2 class="section-title">Социальные сети</h2>
-            <div class="social-links">
-                <div class="social-link" onclick="openLink('https://t.me/Azyar_Upgrade')">📱</div>
-                <div class="social-link" onclick="openLink('https://www.tiktok.com/@.upgrade_motivation')">🎵</div>
-                <div class="social-link" onclick="openLink('https://instagram.com/ronny_upgrade')">📸</div>
-                <div class="social-link" onclick="openLink('https://youtube.com')">▶️</div>
+            <!-- Products Preview -->
+            <div class="products-list">
+                <div class="product-card" onclick="showProductDetail('voice')">
+                    <div class="product-image">
+                        <img src="images/azyar-photo2.jpg" alt="Курс">
+                        <span class="product-badge">Хит</span>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Курс "Уверенный голос"</h3>
+                        <p class="product-desc">Научись звучать уверенно и управлять своим состоянием</p>
+                        <div class="product-footer">
+                            <div class="product-price">4,990₽ <span class="old">9,990₽</span></div>
+                            <button class="btn-primary" onclick="event.stopPropagation(); buyProduct('voice')">
+                                <i data-lucide="shopping-bag" style="width:16px;height:16px;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Products Screen -->
         <div class="screen" id="screen-products">
-            <h2 class="section-title">Продукты Азяра</h2>
-            <div class="products-grid">
+            <div class="hero-section">
+                <p class="welcome-text">Каталог</p>
+                <h1 class="hero-title">Все<br><span>продукты</span></h1>
+            </div>
+
+            <div class="products-list">
                 <div class="product-card">
                     <div class="product-image">
                         <img src="images/azyar-photo2.jpg" alt="Курс">
-                        <span class="product-badge">Популярное</span>
+                        <span class="product-badge">Хит</span>
                     </div>
                     <div class="product-content">
                         <h3 class="product-title">Курс "Уверенный голос"</h3>
-                        <p class="product-desc">Научись звучать уверенно и управлять своим состоянием. Полный гайд по работе с голосом и речью.</p>
+                        <p class="product-desc">Полный гайд по работе с голосом и речью. Техники дыхания, управление состоянием, ораторское мастерство.</p>
                         <div class="product-footer">
-                            <div class="product-price">4 990₽ <span>9 990₽</span></div>
-                            <button class="btn-primary" onclick="buyProduct('voice')">Купить</button>
+                            <div class="product-price">4,990₽ <span class="old">9,990₽</span></div>
+                            <button class="btn-primary" onclick="buyProduct('voice')">
+                                Купить
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="product-card">
-                    <div class="product-image" style="background: linear-gradient(135deg, #16213E 0%, #1A1A2E 100%);">
-                        <div style="font-size: 60px;">🎧</div>
-                        <span class="product-badge">Новинка</span>
+                    <div class="product-image" style="background: linear-gradient(135deg, #1C1C1E 0%, #2C2C2E 100%);">
+                        <div style="display:flex;align-items:center;justify-content:center;height:100%;">
+                            <i data-lucide="headphones" style="width:60px;height:60px;color:var(--accent);opacity:0.5;"></i>
+                        </div>
+                        <span class="product-badge">Новое</span>
                     </div>
                     <div class="product-content">
                         <h3 class="product-title">Подкасты "Апгрейд Мышления"</h3>
-                        <p class="product-desc">Ежедневные подкасты для прокачки мышления, дисциплины и мотивации. Доступ к закрытой библиотеке.</p>
+                        <p class="product-desc">Ежедневные подкасты для прокачки мышления, дисциплины и мотивации.</p>
                         <div class="product-footer">
-                            <div class="product-price">1 990₽ <span>3 990₽</span></div>
-                            <button class="btn-primary" onclick="buyProduct('podcasts')">Купить</button>
+                            <div class="product-price">1,990₽ <span class="old">3,990₽</span></div>
+                            <button class="btn-primary" onclick="buyProduct('podcasts')">
+                                Купить
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="product-card">
-                    <div class="product-image" style="background: linear-gradient(135deg, #1A1A2E 0%, #0F3460 100%);">
-                        <div style="font-size: 60px;">⭐</div>
+                    <div class="product-image" style="background: linear-gradient(135deg, #2C2C2E 0%, #1C1C1E 100%);">
+                        <div style="display:flex;align-items:center;justify-content:center;height:100%;">
+                            <i data-lucide="star" style="width:60px;height:60px;color:var(--accent);opacity:0.5;"></i>
+                        </div>
                         <span class="product-badge">VIP</span>
                     </div>
                     <div class="product-content">
-                        <h3 class="product-title">Приватный канал "Апгрейд"</h3>
-                        <p class="product-desc">Закрытый канал с эксклюзивным контентом, прямыми эфирами и личной поддержкой от Азяра.</p>
+                        <h3 class="product-title">Приватный канал</h3>
+                        <p class="product-desc">Закрытый канал с эксклюзивным контентом, прямыми эфирами и личной поддержкой.</p>
                         <div class="product-footer">
-                            <div class="product-price">2 990₽/мес</div>
-                            <button class="btn-primary" onclick="buyProduct('private')">Подписаться</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image" style="background: linear-gradient(135deg, #0F3460 0%, #16213E 100%);">
-                        <div style="font-size: 60px;">📚</div>
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-title">База знаний "Блог и Кошелек"</h3>
-                        <p class="product-desc">Полный комплект материалов для развития личного бренда и финансовой грамотности.</p>
-                        <div class="product-footer">
-                            <div class="product-price">7 990₽ <span>14 990₽</span></div>
-                            <button class="btn-primary" onclick="buyProduct('knowledge')">Купить</button>
+                            <div class="product-price">2,990₽/мес</div>
+                            <button class="btn-primary" onclick="buyProduct('private')">
+                                Вступить
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1089,136 +1199,176 @@
         <!-- Privatka Screen -->
         <div class="screen" id="screen-privatka">
             <div class="privatka-hero">
-                <h2>🔒 Приватный канал</h2>
-                <p>Эксклюзивный контент для членов сообщества</p>
+                <div class="privatka-icon">
+                    <i data-lucide="lock"></i>
+                </div>
+                <h2 class="privatka-title">Приватный канал</h2>
+                <p class="privatka-subtitle">Эксклюзивный контент для членов сообщества</p>
             </div>
 
-            <div class="privatka-status">
-                <div class="status-card">
-                    <div class="status-icon">✓</div>
-                    <h3 class="status-title">Подписка активна</h3>
-                    <p class="status-text">У вас есть доступ к закрытому каналу</p>
-                    
-                    <div class="timer-box">
-                        <div class="timer-label">До окончания подписки:</div>
-                        <div class="timer-value" id="timer">27:14:35:42</div>
+            <div class="glass-card subscription-card">
+                <div class="subscription-status">
+                    <i data-lucide="check-circle" style="width:16px;height:16px;"></i>
+                    Подписка активна
+                </div>
+                <div class="timer-display" id="timer">27:14:35:42</div>
+                <div class="timer-label">До окончания подписки</div>
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title">Что включено</h2>
+            </div>
+
+            <div class="menu-list" style="padding: 0 20px;">
+                <div class="menu-item">
+                    <div class="menu-icon-box">
+                        <i data-lucide="video" style="width:20px;height:20px;"></i>
                     </div>
-                    
-                    <button class="btn-primary" style="width: 100%;" onclick="openChannel()">Перейти в канал</button>
+                    <div class="menu-text">Эксклюзивные видео</div>
+                    <i data-lucide="chevron-right" class="menu-arrow" style="width:20px;height:20px;"></i>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon-box">
+                        <i data-lucide="mic" style="width:20px;height:20px;"></i>
+                    </div>
+                    <div class="menu-text">Прямые эфиры</div>
+                    <i data-lucide="chevron-right" class="menu-arrow" style="width:20px;height:20px;"></i>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon-box">
+                        <i data-lucide="message-circle" style="width:20px;height:20px;"></i>
+                    </div>
+                    <div class="menu-text">Личная поддержка</div>
+                    <i data-lucide="chevron-right" class="menu-arrow" style="width:20px;height:20px;"></i>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon-box">
+                        <i data-lucide="gift" style="width:20px;height:20px;"></i>
+                    </div>
+                    <div class="menu-text">Бонусы и подарки</div>
+                    <i data-lucide="chevron-right" class="menu-arrow" style="width:20px;height:20px;"></i>
                 </div>
             </div>
 
-            <h2 class="section-title">Что включено</h2>
-            <div class="products-grid">
-                <div class="menu-item" style="margin: 0 0 12px 0;">
-                    <div class="menu-icon">📹</div>
-                    <div class="menu-content">
-                        <div class="menu-title">Эксклюзивные видео</div>
-                    </div>
-                </div>
-                <div class="menu-item" style="margin: 0 0 12px 0;">
-                    <div class="menu-icon">🎙️</div>
-                    <div class="menu-content">
-                        <div class="menu-title">Прямые эфиры</div>
-                    </div>
-                </div>
-                <div class="menu-item" style="margin: 0 0 12px 0;">
-                    <div class="menu-icon">💬</div>
-                    <div class="menu-content">
-                        <div class="menu-title">Личная поддержка</div>
-                    </div>
-                </div>
-                <div class="menu-item" style="margin: 0 0 12px 0;">
-                    <div class="menu-icon">🎁</div>
-                    <div class="menu-content">
-                        <div class="menu-title">Бонусы и подарки</div>
-                    </div>
-                </div>
+            <div style="padding: 20px;">
+                <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="openChannel()">
+                    <i data-lucide="external-link" style="width:18px;height:18px;"></i>
+                    Перейти в канал
+                </button>
             </div>
         </div>
 
         <!-- Tracker Screen -->
         <div class="screen" id="screen-tracker">
             <div class="tracker-header">
-                <p class="tracker-date">Сегодня, 4 марта 2026</p>
-                <div class="tracker-progress">
-                    <div class="progress-circle">
-                        <span class="progress-text">65%</span>
+                <p class="tracker-date">Сегодня, <span id="currentDate">4 марта 2026</span></p>
+                <div class="progress-ring-container">
+                    <div class="progress-ring">
+                        <svg width="100" height="100">
+                            <circle class="progress-ring-bg" cx="50" cy="50" r="42"></circle>
+                            <circle class="progress-ring-fill" cx="50" cy="50" r="42" 
+                                stroke-dasharray="264" stroke-dashoffset="92"></circle>
+                        </svg>
+                        <div class="progress-text">65%</div>
                     </div>
                     <div class="progress-info">
                         <h3>День 42 из 90</h3>
-                        <p>Ты на верном пути! Продолжай в том же духе</p>
+                        <p>Ты на верном пути!<br>Продолжай в том же духе</p>
                     </div>
                 </div>
             </div>
 
-            <h2 class="section-title">Ежедневные практики</h2>
+            <div class="section-header">
+                <h2 class="section-title">Ежедневные практики</h2>
+            </div>
+
             <div class="habits-list">
-                <div class="habit-item">
-                    <div class="habit-checkbox checked" onclick="toggleHabit(this)">✓</div>
+                <div class="habit-card">
+                    <div class="habit-checkbox checked" onclick="toggleHabit(this)">
+                        <i data-lucide="check"></i>
+                    </div>
                     <div class="habit-content">
-                        <div class="habit-title">Утренняя медитация (10 мин)</div>
-                        <div class="habit-streak">🔥 Серия: 12 дней</div>
+                        <div class="habit-title">Утренняя медитация</div>
+                        <div class="habit-streak">
+                            <i data-lucide="flame" style="width:12px;height:12px;"></i>
+                            Серия: 12 дней
+                        </div>
+                    </div>
+                    <div class="habit-icon">
+                        <i data-lucide="sparkles" style="width:20px;height:20px;"></i>
                     </div>
                 </div>
-                <div class="habit-item">
-                    <div class="habit-checkbox checked" onclick="toggleHabit(this)">✓</div>
+
+                <div class="habit-card">
+                    <div class="habit-checkbox checked" onclick="toggleHabit(this)">
+                        <i data-lucide="check"></i>
+                    </div>
                     <div class="habit-content">
                         <div class="habit-title">Голосовые упражнения</div>
-                        <div class="habit-streak">🔥 Серия: 8 дней</div>
+                        <div class="habit-streak">
+                            <i data-lucide="flame" style="width:12px;height:12px;"></i>
+                            Серия: 8 дней
+                        </div>
+                    </div>
+                    <div class="habit-icon">
+                        <i data-lucide="mic" style="width:20px;height:20px;"></i>
                     </div>
                 </div>
-                <div class="habit-item">
+
+                <div class="habit-card">
                     <div class="habit-checkbox" onclick="toggleHabit(this)"></div>
                     <div class="habit-content">
                         <div class="habit-title">Чтение (30 минут)</div>
-                        <div class="habit-streak">🔥 Серия: 5 дней</div>
+                        <div class="habit-streak">
+                            <i data-lucide="flame" style="width:12px;height:12px;"></i>
+                            Серия: 5 дней
+                        </div>
+                    </div>
+                    <div class="habit-icon">
+                        <i data-lucide="book-open" style="width:20px;height:20px;"></i>
                     </div>
                 </div>
-                <div class="habit-item">
-                    <div class="habit-checkbox checked" onclick="toggleHabit(this)">✓</div>
+
+                <div class="habit-card">
+                    <div class="habit-checkbox checked" onclick="toggleHabit(this)">
+                        <i data-lucide="check"></i>
+                    </div>
                     <div class="habit-content">
                         <div class="habit-title">Спорт / Тренировка</div>
-                        <div class="habit-streak">🔥 Серия: 15 дней</div>
+                        <div class="habit-streak">
+                            <i data-lucide="flame" style="width:12px;height:12px;"></i>
+                            Серия: 15 дней
+                        </div>
+                    </div>
+                    <div class="habit-icon">
+                        <i data-lucide="dumbbell" style="width:20px;height:20px;"></i>
                     </div>
                 </div>
-                <div class="habit-item">
+
+                <div class="habit-card">
                     <div class="habit-checkbox" onclick="toggleHabit(this)"></div>
                     <div class="habit-content">
                         <div class="habit-title">Прослушать подкаст</div>
-                        <div class="habit-streak">🔥 Серия: 21 день</div>
+                        <div class="habit-streak">
+                            <i data-lucide="flame" style="width:12px;height:12px;"></i>
+                            Серия: 21 день
+                        </div>
                     </div>
-                </div>
-                <div class="habit-item">
-                    <div class="habit-checkbox" onclick="toggleHabit(this)"></div>
-                    <div class="habit-content">
-                        <div class="habit-title">Вечерний дневник благодарности</div>
-                        <div class="habit-streak">🔥 Серия: 3 дня</div>
+                    <div class="habit-icon">
+                        <i data-lucide="headphones" style="width:20px;height:20px;"></i>
                     </div>
-                </div>
-            </div>
-
-            <h2 class="section-title">Статистика недели</h2>
-            <div class="stats-row" style="padding-top: 0;">
-                <div class="stat-card">
-                    <div class="stat-number">85%</div>
-                    <div class="stat-label">Выполнено</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">42</div>
-                    <div class="stat-label">Дней подряд</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">156</div>
-                    <div class="stat-label">Всего задач</div>
                 </div>
             </div>
         </div>
 
         <!-- Knowledge Screen -->
         <div class="screen" id="screen-knowledge">
-            <h2 class="section-title">База знаний</h2>
-            <div class="knowledge-categories">
+            <div class="hero-section">
+                <p class="welcome-text">Библиотека</p>
+                <h1 class="hero-title">База<br><span>знаний</span></h1>
+            </div>
+
+            <div class="categories-scroll">
                 <div class="category-chip active">Все</div>
                 <div class="category-chip">Видео</div>
                 <div class="category-chip">Аудио</div>
@@ -1226,70 +1376,42 @@
                 <div class="category-chip">Гайды</div>
             </div>
 
-            <div class="materials-list">
-                <div class="material-card">
-                    <div class="material-icon">🎥</div>
-                    <div class="material-content">
-                        <div class="material-title">Как развить уверенную речь</div>
-                        <div class="material-meta">Видео • 45 мин • Урок 1 из 10</div>
-                        <div class="material-progress">
-                            <div class="material-progress-bar" style="width: 100%;"></div>
-                        </div>
+            <div class="material-card">
+                <div class="material-icon">
+                    <i data-lucide="play-circle" style="width:24px;height:24px;"></i>
+                </div>
+                <div class="material-content">
+                    <div class="material-title">Как развить уверенную речь</div>
+                    <div class="material-meta">Видео • 45 мин • Урок 1 из 10</div>
+                    <div class="material-progress">
+                        <div class="material-progress-bar" style="width: 100%;"></div>
                     </div>
                 </div>
+                <i data-lucide="check-circle" style="color:var(--success);"></i>
+            </div>
 
-                <div class="material-card">
-                    <div class="material-icon">🎧</div>
-                    <div class="material-content">
-                        <div class="material-title">Подкаст: Сила мышления</div>
-                        <div class="material-meta">Аудио • 25 мин • Эпизод 42</div>
-                        <div class="material-progress">
-                            <div class="material-progress-bar" style="width: 60%;"></div>
-                        </div>
+            <div class="material-card">
+                <div class="material-icon">
+                    <i data-lucide="headphones" style="width:24px;height:24px;"></i>
+                </div>
+                <div class="material-content">
+                    <div class="material-title">Подкаст: Сила мышления</div>
+                    <div class="material-meta">Аудио • 25 мин • Эпизод 42</div>
+                    <div class="material-progress">
+                        <div class="material-progress-bar" style="width: 60%;"></div>
                     </div>
                 </div>
+            </div>
 
-                <div class="material-card">
-                    <div class="material-icon">📄</div>
-                    <div class="material-content">
-                        <div class="material-title">Чек-лист: Утренняя рутина</div>
-                        <div class="material-meta">PDF • 5 страниц</div>
-                        <div class="material-progress">
-                            <div class="material-progress-bar" style="width: 0%;"></div>
-                        </div>
-                    </div>
+            <div class="material-card">
+                <div class="material-icon">
+                    <i data-lucide="file-text" style="width:24px;height:24px;"></i>
                 </div>
-
-                <div class="material-card">
-                    <div class="material-icon">🎥</div>
-                    <div class="material-content">
-                        <div class="material-title">Техники дыхания для спикеров</div>
-                        <div class="material-meta">Видео • 30 мин • Урок 2 из 10</div>
-                        <div class="material-progress">
-                            <div class="material-progress-bar" style="width: 45%;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">📄</div>
-                    <div class="material-content">
-                        <div class="material-title">Гайд по построению личного бренда</div>
-                        <div class="material-meta">PDF • 25 страниц</div>
-                        <div class="material-progress">
-                            <div class="material-progress-bar" style="width: 20%;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="material-card">
-                    <div class="material-icon">🎧</div>
-                    <div class="material-content">
-                        <div class="material-title">Медитация для уверенности</div>
-                        <div class="material-meta">Аудио • 15 мин</div>
-                        <div class="material-progress">
-                            <div class="material-progress-bar" style="width: 0%;"></div>
-                        </div>
+                <div class="material-content">
+                    <div class="material-title">Чек-лист: Утренняя рутина</div>
+                    <div class="material-meta">PDF • 5 страниц</div>
+                    <div class="material-progress">
+                        <div class="material-progress-bar" style="width: 0%;"></div>
                     </div>
                 </div>
             </div>
@@ -1297,130 +1419,146 @@
 
         <!-- Profile Screen -->
         <div class="screen" id="screen-profile">
-            <div class="profile-header">
-                <div class="profile-avatar" id="profileAvatar">АП</div>
+            <div class="profile-hero">
+                <div class="profile-avatar-large" id="profileAvatar">АП</div>
                 <h2 class="profile-name" id="profileName">Азяр Апгрейд</h2>
                 <p class="profile-status">Участник приватного канала</p>
             </div>
 
-            <div class="profile-menu">
+            <div class="menu-list">
                 <div class="menu-item" onclick="showToast('История покупок')">
-                    <div class="menu-icon">🛒</div>
-                    <div class="menu-content">
-                        <div class="menu-title">История покупок</div>
+                    <div class="menu-icon-box">
+                        <i data-lucide="shopping-bag" style="width:20px;height:20px;"></i>
                     </div>
-                    <div class="menu-arrow">›</div>
+                    <div class="menu-text">История покупок</div>
+                    <i data-lucide="chevron-right" class="menu-arrow" style="width:20px;height:20px;"></i>
                 </div>
 
                 <div class="menu-item" onclick="showToast('Мои курсы')">
-                    <div class="menu-icon">📚</div>
-                    <div class="menu-content">
-                        <div class="menu-title">Мои курсы</div>
+                    <div class="menu-icon-box">
+                        <i data-lucide="book-open" style="width:20px;height:20px;"></i>
                     </div>
-                    <div class="menu-arrow">›</div>
+                    <div class="menu-text">Мои курсы</div>
+                    <i data-lucide="chevron-right" class="menu-arrow" style="width:20px;height:20px;"></i>
                 </div>
 
                 <div class="menu-item" onclick="showToast('Настройки')">
-                    <div class="menu-icon">⚙️</div>
-                    <div class="menu-content">
-                        <div class="menu-title">Настройки</div>
+                    <div class="menu-icon-box">
+                        <i data-lucide="settings" style="width:20px;height:20px;"></i>
                     </div>
-                    <div class="menu-arrow">›</div>
+                    <div class="menu-text">Настройки</div>
+                    <i data-lucide="chevron-right" class="menu-arrow" style="width:20px;height:20px;"></i>
                 </div>
 
                 <div class="menu-item" onclick="showToast('Поддержка')">
-                    <div class="menu-icon">💬</div>
-                    <div class="menu-content">
-                        <div class="menu-title">Поддержка</div>
+                    <div class="menu-icon-box">
+                        <i data-lucide="help-circle" style="width:20px;height:20px;"></i>
                     </div>
-                    <div class="menu-arrow">›</div>
+                    <div class="menu-text">Поддержка</div>
+                    <i data-lucide="chevron-right" class="menu-arrow" style="width:20px;height:20px;"></i>
                 </div>
 
                 <div class="menu-item" onclick="showAboutModal()">
-                    <div class="menu-icon">ℹ️</div>
-                    <div class="menu-content">
-                        <div class="menu-title">О проекте Азяр Апгрейд</div>
+                    <div class="menu-icon-box">
+                        <i data-lucide="info" style="width:20px;height:20px;"></i>
                     </div>
-                    <div class="menu-arrow">›</div>
+                    <div class="menu-text">О проекте APGRADE</div>
+                    <i data-lucide="chevron-right" class="menu-arrow" style="width:20px;height:20px;"></i>
                 </div>
             </div>
 
             <div class="social-links">
-                <div class="social-link" onclick="openLink('https://t.me/Azyar_Upgrade')">📱</div>
-                <div class="social-link" onclick="openLink('https://www.tiktok.com/@.upgrade_motivation')">🎵</div>
-                <div class="social-link" onclick="openLink('https://instagram.com/ronny_upgrade')">📸</div>
+                <a href="https://t.me/Azyar_Upgrade" class="social-link" onclick="event.preventDefault(); openLink('https://t.me/Azyar_Upgrade')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M21.5 4.5L2.5 12L9.5 14M21.5 4.5L18 20.5L9.5 14M21.5 4.5L9.5 14"/>
+                    </svg>
+                </a>
+                <a href="https://www.tiktok.com/@.upgrade_motivation" class="social-link" onclick="event.preventDefault(); openLink('https://www.tiktok.com/@.upgrade_motivation')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                    </svg>
+                </a>
+                <a href="https://instagram.com/ronny_upgrade" class="social-link" onclick="event.preventDefault(); openLink('https://instagram.com/ronny_upgrade')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                </a>
+                <a href="#" class="social-link" onclick="event.preventDefault(); openLink('https://youtube.com')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/>
+                        <path d="M10 15l5-3-5-3z"/>
+                    </svg>
+                </a>
             </div>
         </div>
 
         <!-- Bottom Navigation -->
         <nav class="bottom-nav">
-            <div class="nav-item active" onclick="showScreen('dashboard', this)">
-                <span class="nav-icon">🏠</span>
+            <button class="nav-item active" data-screen="dashboard" onclick="showScreen('dashboard', this)">
+                <i data-lucide="home" class="nav-icon"></i>
                 <span class="nav-label">Главная</span>
-            </div>
-            <div class="nav-item" onclick="showScreen('products', this)">
-                <span class="nav-icon">🛍️</span>
+            </button>
+            <button class="nav-item" data-screen="products" onclick="showScreen('products', this)">
+                <i data-lucide="shopping-bag" class="nav-icon"></i>
                 <span class="nav-label">Продукты</span>
-            </div>
-            <div class="nav-item" onclick="showScreen('privatka', this)">
-                <span class="nav-icon">🔒</span>
+            </button>
+            <button class="nav-item" data-screen="privatka" onclick="showScreen('privatka', this)">
+                <i data-lucide="lock" class="nav-icon"></i>
                 <span class="nav-label">Приватка</span>
-            </div>
-            <div class="nav-item" onclick="showScreen('tracker', this)">
-                <span class="nav-icon">📊</span>
+            </button>
+            <button class="nav-item" data-screen="tracker" onclick="showScreen('tracker', this)">
+                <i data-lucide="target" class="nav-icon"></i>
                 <span class="nav-label">Трекер</span>
-            </div>
-            <div class="nav-item" onclick="showScreen('knowledge', this)">
-                <span class="nav-icon">📖</span>
+            </button>
+            <button class="nav-item" data-screen="knowledge" onclick="showScreen('knowledge', this)">
+                <i data-lucide="book-open" class="nav-icon"></i>
                 <span class="nav-label">База</span>
-            </div>
-            <div class="nav-item" onclick="showScreen('profile', this)">
-                <span class="nav-icon">👤</span>
+            </button>
+            <button class="nav-item" data-screen="profile" onclick="showScreen('profile', this)">
+                <i data-lucide="user" class="nav-icon"></i>
                 <span class="nav-label">Профиль</span>
-            </div>
+            </button>
         </nav>
+    </div>
+
+    <!-- About Modal -->
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>О проекте</h3>
+                <button class="modal-close" onclick="closeAboutModal()">
+                    <i data-lucide="x" style="width:24px;height:24px;"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <div class="loading-logo" style="margin: 0 auto 20px;">
+                    <i data-lucide="arrow-up-circle" style="width:32px;height:32px;color:var(--bg-primary);"></i>
+                </div>
+                <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">AP<span style="color: var(--accent);">GRADE</span></h2>
+                <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+                    <strong>Азяр Мамедов</strong> — основатель и голос проектов АПГРЕЙД.<br><br>
+                    Тот самый голос, который ты слышишь повсюду. Мы открыли новую главу, 
+                    чтобы продолжать менять мир и жизни!
+                </p>
+                <div style="display: flex; justify-content: center; gap: 24px; margin-bottom: 24px;">
+                    <div>
+                        <div style="font-size: 28px; font-weight: 700; color: var(--accent);">5M+</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">Подписчиков</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 28px; font-weight: 700; color: var(--accent);">2.9M</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">Лайков</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Toast -->
     <div class="toast" id="toast"></div>
 
-    <!--
-    ═══════════════════════════════════════════════════════════════
-    TODO: Backend Integration Guide
-    ═══════════════════════════════════════════════════════════════
-    
-    1. USER AUTHENTICATION:
-       - Endpoint: POST /api/auth/telegram
-       - Payload: { initData: tg.initData }
-       - Response: { user_id, token, subscription_end_date }
-    
-    2. PRODUCTS API:
-       - Endpoint: GET /api/products
-       - Response: [{ id, title, description, price, old_price, image, badge }]
-    
-    3. PAYMENT INTEGRATION:
-       - Telegram Stars: tg.openInvoice(url)
-       - CryptoPay: Create invoice via API, then tg.openInvoice()
-       - Webhook: POST /api/payments/webhook
-    
-    4. SUBSCRIPTION STATUS:
-       - Endpoint: GET /api/subscription/status
-       - Response: { is_active, end_date, channel_link }
-    
-    5. TRACKER SYNC:
-       - GET /api/tracker/habits
-       - POST /api/tracker/habits/{id}/complete
-    
-    6. KNOWLEDGE BASE:
-       - Endpoint: GET /api/materials
-       - Response: [{ id, title, type, duration, progress, content_url }]
-    
-    7. ANALYTICS:
-       - Track: page_views, button_clicks, purchases
-       - Endpoint: POST /api/analytics/event
-    ═══════════════════════════════════════════════════════════════
-    -->
-    
     <script>
         // Telegram Web App initialization
         let tg = window.Telegram ? window.Telegram.WebApp : null;
@@ -1435,23 +1573,33 @@
                 initDataUnsafe: {},
                 openLink: (url) => window.open(url, '_blank'),
                 openTelegramLink: (url) => window.open(url, '_blank'),
-                HapticFeedback: null
+                HapticFeedback: null,
+                MainButton: {
+                    show: () => {},
+                    hide: () => {},
+                    setText: () => {},
+                    onClick: () => {}
+                }
             };
         }
         
-        // Initialize app
+        // Initialize Lucide icons
         document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+            
             // Hide loading
             setTimeout(() => {
                 document.getElementById('loading').style.display = 'none';
             }, 1000);
             
             // Expand Web App
-            tg.expand();
+            if (tg.expand) tg.expand();
             
             // Set header color
-            tg.setHeaderColor('#1A1A2E');
-            tg.setBackgroundColor('#0F0F1A');
+            if (tg.setHeaderColor) {
+                tg.setHeaderColor('#0A0A0A');
+                tg.setBackgroundColor('#0A0A0A');
+            }
             
             // Get user data
             if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
@@ -1463,52 +1611,87 @@
                 document.getElementById('profileName').textContent = firstName + (lastName ? ' ' + lastName : '');
             }
             
+            // Set current date
+            const now = new Date();
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('ru-RU', options);
+            
             // Start timer
             updateTimer();
             setInterval(updateTimer, 1000);
+            
+            // Setup MainButton
+            setupMainButton();
         });
+        
+        // MainButton setup
+        function setupMainButton() {
+            if (tg && tg.MainButton) {
+                tg.MainButton.setText('Купить курс');
+                tg.MainButton.setParams({ color: '#00D4FF', text_color: '#0A0A0A' });
+            }
+        }
+        
+        function showMainButton(text, callback) {
+            if (tg && tg.MainButton) {
+                tg.MainButton.setText(text);
+                tg.MainButton.show();
+                tg.MainButton.onClick(callback);
+            }
+        }
+        
+        function hideMainButton() {
+            if (tg && tg.MainButton) {
+                tg.MainButton.hide();
+            }
+        }
         
         // Screen navigation
         function showScreen(screenName, navItem) {
-            // Hide all screens
             document.querySelectorAll('.screen').forEach(screen => {
                 screen.classList.remove('active');
             });
             
-            // Show selected screen
             document.getElementById('screen-' + screenName).classList.add('active');
             
-            // Update nav items
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
             });
             
-            // Activate clicked nav item
-            if (navItem && navItem.classList) {
+            if (navItem) {
                 navItem.classList.add('active');
             }
             
-            // Scroll to top
             window.scrollTo(0, 0);
             
             // Haptic feedback
             if (tg && tg.HapticFeedback) {
                 tg.HapticFeedback.impactOccurred('light');
             }
+            
+            // Show/hide MainButton based on screen
+            if (screenName === 'products') {
+                showMainButton('Каталог курсов', () => showToast('Открываем каталог...'));
+            } else {
+                hideMainButton();
+            }
         }
         
-        // Habit toggle
+        // Habit toggle with animation
         function toggleHabit(element) {
             element.classList.toggle('checked');
+            
             if (element.classList.contains('checked')) {
-                element.textContent = '✓';
-                showToast('Отлично! Практика выполнена ✓');
+                element.innerHTML = '<i data-lucide="check"></i>';
+                lucide.createIcons();
+                showToast('Отлично! Практика выполнена');
             } else {
-                element.textContent = '';
+                element.innerHTML = '';
             }
             
-            if (tg.HapticFeedback) {
-                tg.HapticFeedback.impactOccurred('medium');
+            // Haptic feedback
+            if (tg && tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred('success');
             }
         }
         
@@ -1516,21 +1699,23 @@
         function buyProduct(productId) {
             showToast('Открываем оплату...');
             
-            // Open invoice (example)
-            // tg.openInvoice('invoice_url');
-            
-            if (tg.HapticFeedback) {
+            if (tg && tg.HapticFeedback) {
                 tg.HapticFeedback.notificationOccurred('success');
             }
         }
         
+        // Show product detail
+        function showProductDetail(productId) {
+            showToast('Загрузка...');
+        }
+        
         // Open channel
         function openChannel() {
-            const channelUrl = 'https://t.me/+JfbEBK_RZgw0YmRi';
+            const url = 'https://t.me/+JfbEBK_RZgw0YmRi';
             if (tg && tg.openTelegramLink) {
-                tg.openTelegramLink(channelUrl);
+                tg.openTelegramLink(url);
             } else {
-                window.open(channelUrl, '_blank');
+                window.open(url, '_blank');
             }
         }
         
@@ -1553,18 +1738,16 @@
             }, 2500);
         }
         
-        // Subscription timer - configurable end date
-        // TODO: Replace with actual subscription end date from backend
-        const SUBSCRIPTION_END_DATE = new Date();
-        SUBSCRIPTION_END_DATE.setDate(SUBSCRIPTION_END_DATE.getDate() + 27); // +27 days as example
-        SUBSCRIPTION_END_DATE.setHours(SUBSCRIPTION_END_DATE.getHours() + 14);
+        // Timer update
+        const SUBSCRIPTION_END = new Date();
+        SUBSCRIPTION_END.setDate(SUBSCRIPTION_END.getDate() + 27);
         
         function updateTimer() {
             const now = new Date();
-            const diff = SUBSCRIPTION_END_DATE - now;
+            const diff = SUBSCRIPTION_END - now;
             
             if (diff <= 0) {
-                document.getElementById('timer').textContent = 'Подписка истекла';
+                document.getElementById('timer').textContent = 'Истекла';
                 return;
             }
             
@@ -1574,16 +1757,8 @@
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
             
             document.getElementById('timer').textContent = 
-                `${days}д ${hours.toString().padStart(2, '0')}ч ${minutes.toString().padStart(2, '0')}м ${seconds.toString().padStart(2, '0')}с`;
+                `${days}д ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
-        
-        // Category chips
-        document.querySelectorAll('.category-chip').forEach(chip => {
-            chip.addEventListener('click', function() {
-                document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
         
         // About modal
         function showAboutModal() {
@@ -1596,6 +1771,14 @@
         function closeAboutModal() {
             document.getElementById('aboutModal').classList.remove('show');
         }
+        
+        // Category chips
+        document.querySelectorAll('.category-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
         
         // Close modal on backdrop click
         document.getElementById('aboutModal').addEventListener('click', function(e) {
