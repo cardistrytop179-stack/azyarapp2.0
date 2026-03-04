@@ -1,0 +1,35 @@
+# Архивы и временные файлы
+*.zip
+*.rar
+*.7z
+*.tar.gz
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE и редакторы
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Логи
+*.log
+npm-debug.log*
+
+# Если добавишь Node.js позже
+node_modules/
+package-lock.json
+yarn.lock
+
+# Если добавишь сборку
+build/
+dist/
+.cache/
+
+# Локальные переменные окружения
+.env
+.env.local

@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Азяр | Апгрейд</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #FF6B35;
+            --primary-dark: #E55A2B;
+            --secondary: #1A1A2E;
+            --accent: #16213E;
+            --gold: #FFD700;
+            --success: #4CAF50;
+            --bg: #0F0F1A;
+            --card-bg: #1A1A2E;
+            --text: #FFFFFF;
+            --text-secondary: #A0A0B0;
+            --gradient: linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%);
+            --gradient-dark: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .app-container {
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 80px;
+        }
+        
+        /* Header */
+        .header {
+            background: var(--gradient-dark);
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 18px;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .logo-text span {
+            color: var(--primary);
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        /* Screens */
+        .screen {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Dashboard */
+        .hero-section {
+            background: var(--gradient-dark);
+            padding: 24px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,107,53,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .welcome-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .hero-title {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+        
+        .hero-title span {
+            color: var(--primary);
+        }
+        
+        .azyar-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .azyar-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+        }
+        
+        .azyar-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .azyar-info p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 20px;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .stat-number {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+        
+        /* Section Title */
+        .section-title {
+            padding: 20px 20px 12px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        /* Products */
+        .products-grid {
+            padding: 0 20px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.2s;
+        }
+        
+        .product-card:active {
+            transform: scale(0.98);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 160px;
+            background: var(--gradient-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--gradient);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .product-content {
+            padding: 16px;
+        }
+        
+        .product-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .product-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        
+        .product-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .product-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .product-price span {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: line-through;
+            margin-left: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        
+        .btn-primary:active {
+            opacity: 0.8;
+        }
+        
+        /* Privatka Module */
+        .privatka-hero {
+            background: var(--gradient);
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .privatka-hero h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .privatka-hero p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .privatka-status {
+            padding: 20px;
+        }
+        
+        .status-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            border: 2px solid var(--success);
+        }
+        
+        .status-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(76, 175, 80, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 28px;
+        }
+        
+        .status-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .status-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .timer-box {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .timer-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .timer-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: monospace;
+        }
+        
+        /* Tracker */
+        .tracker-header {
+            background: var(--gradient-dark);
+            padding: 24px 20px;
+        }
+        
+        .tracker-date {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .tracker-progress {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .progress-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary) 0% 65%, rgba(255,255,255,0.1) 65% 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .progress-circle::before {
+            content: '';
+            position: absolute;
+            width: 56px;
+            height: 56px;
+            background: var(--bg);
+            border-radius: 50%;
+        }
+        
+        .progress-text {
+            position: relative;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .progress-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .progress-info p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .habits-list {
+            padding: 20px;
+        }
+        
+        .habit-item {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .habit-checkbox {
+            width: 28px;
+            height: 28px;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        
+        .habit-checkbox.checked {
+            background: var(--primary);
+        }
+        
+        .habit-content {
+            flex: 1;
+        }
+        
+        .habit-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .habit-streak {
+            font-size: 12px;
+            color: var(--gold);
+        }
+        
+        /* Knowledge Base */
+        .knowledge-categories {
+            padding: 20px;
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        
+        .knowledge-categories::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .category-chip {
+            background: var(--card-bg);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            white-space: nowrap;
+            border: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+        }
+        
+        .category-chip.active {
+            background: var(--gradient);
+            border-color: transparent;
+        }
+        
+        .materials-list {
+            padding: 0 20px 20px;
+        }
+        
+        .material-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .material-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .material-content {
+            flex: 1;
+        }
+        
+        .material-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .material-meta {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .material-progress {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .material-progress-bar {
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+        
+        /* Profile */
+        .profile-header {
+            background: var(--gradient-dark);
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 40px;
+            font-weight: 700;
+            border: 4px solid var(--primary);
+        }
+        
+        .profile-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .profile-status {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .profile-menu {
+            padding: 20px;
+        }
+        
+        .menu-item {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+        }
+        
+        .menu-icon {
+            width: 44px;
+            height: 44px;
+            background: rgba(255,107,53,0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .menu-content {
+            flex: 1;
+        }
+        
+        .menu-title {
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        .menu-arrow {
+            font-size: 20px;
+            color: var(--text-secondary);
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0 20px;
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 16px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+        }
+        
+        .nav-item.active {
+            color: var(--primary);
+        }
+        
+        .nav-icon {
+            font-size: 24px;
+        }
+        
+        .nav-label {
+            font-size: 11px;
+            font-weight: 500;
+        }
+        
+        /* Social Links */
+        .social-links {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+        
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: var(--card-bg);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            border: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .social-link:active {
+            transform: scale(0.95);
+        }
+        
+        /* Quote Card */
+        .quote-card {
+            background: var(--gradient);
+            border-radius: 20px;
+            padding: 24px;
+            margin: 0 20px 20px;
+            position: relative;
+        }
+        
+        .quote-text {
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 1.6;
+            font-style: italic;
+            margin-bottom: 16px;
+        }
+        
+        .quote-author {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* Achievements */
+        .achievements-grid {
+            padding: 0 20px 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .achievement-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .achievement-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+        
+        .achievement-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .achievement-desc {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+        
+        /* Loading */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,107,53,0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--card-bg);
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 9999;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 360px;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: modalIn 0.3s ease;
+        }
+        
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 24px;
+            text-align: center;
+        }
+        
+        .about-logo {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 800;
+            margin: 0 auto 16px;
+        }
+        
+        .about-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .about-title span {
+            color: var(--primary);
+        }
+        
+        .about-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        
+        .about-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 24px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+        }
+        
+        .about-stat-num {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .about-stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        
+        .about-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        
+        .about-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">↑</div>
+                    <div class="logo-text">Азяр <span>Апгрейд</span></div>
+                </div>
+                <div class="user-avatar" id="userAvatar">А</div>
+            </div>
+        </header>
+
+        <!-- Dashboard Screen -->
+        <div class="screen active" id="screen-dashboard">
+            <div class="hero-section">
+                <div class="hero-content">
+                    <p class="welcome-text">Добро пожаловать</p>
+                    <h1 class="hero-title">Время твоего <span>апгрейда</span> начинается сейчас</h1>
+                    <div class="azyar-card">
+                        <img src="images/azyar-photo1.jpg" alt="Азяр" class="azyar-photo">
+                        <div class="azyar-info">
+                            <h3>Азяр Мамедов</h3>
+                            <p>Основатель и голос проектов АПГРЕЙД – 5 МЛН | Мотиватор | Тот, которого ты часто слышишь 🎧</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-number">5M+</div>
+                    <div class="stat-label">Подписчиков</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">12K+</div>
+                    <div class="stat-label">В Telegram</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2.9M</div>
+                    <div class="stat-label">Лайков</div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Мотивация дня</h2>
+            <div class="quote-card">
+                <p class="quote-text">"Твой голос — это твоя суперсила. Когда ты звучишь уверенно, мир начинает слушать."</p>
+                <p class="quote-author">— Азяр Мамедов</p>
+            </div>
+
+            <h2 class="section-title">Достижения</h2>
+            <div class="achievements-grid">
+                <div class="achievement-card">
+                    <div class="achievement-icon">🎯</div>
+                    <div class="achievement-title">Целеустремленный</div>
+                    <div class="achievement-desc">7 дней подряд</div>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">🔥</div>
+                    <div class="achievement-title">На пути к успеху</div>
+                    <div class="achievement-desc">Первая покупка</div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Социальные сети</h2>
+            <div class="social-links">
+                <div class="social-link" onclick="openLink('https://t.me/Azyar_Upgrade')">📱</div>
+                <div class="social-link" onclick="openLink('https://www.tiktok.com/@.upgrade_motivation')">🎵</div>
+                <div class="social-link" onclick="openLink('https://instagram.com/ronny_upgrade')">📸</div>
+                <div class="social-link" onclick="openLink('https://youtube.com')">▶️</div>
+            </div>
+        </div>
+
+        <!-- Products Screen -->
+        <div class="screen" id="screen-products">
+            <h2 class="section-title">Продукты Азяра</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/azyar-photo2.jpg" alt="Курс">
+                        <span class="product-badge">Популярное</span>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Курс "Уверенный голос"</h3>
+                        <p class="product-desc">Научись звучать уверенно и управлять своим состоянием. Полный гайд по работе с голосом и речью.</p>
+                        <div class="product-footer">
+                            <div class="product-price">4 990₽ <span>9 990₽</span></div>
+                            <button class="btn-primary" onclick="buyProduct('voice')">Купить</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #16213E 0%, #1A1A2E 100%);">
+                        <div style="font-size: 60px;">🎧</div>
+                        <span class="product-badge">Новинка</span>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Подкасты "Апгрейд Мышления"</h3>
+                        <p class="product-desc">Ежедневные подкасты для прокачки мышления, дисциплины и мотивации. Доступ к закрытой библиотеке.</p>
+                        <div class="product-footer">
+                            <div class="product-price">1 990₽ <span>3 990₽</span></div>
+                            <button class="btn-primary" onclick="buyProduct('podcasts')">Купить</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #1A1A2E 0%, #0F3460 100%);">
+                        <div style="font-size: 60px;">⭐</div>
+                        <span class="product-badge">VIP</span>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Приватный канал "Апгрейд"</h3>
+                        <p class="product-desc">Закрытый канал с эксклюзивным контентом, прямыми эфирами и личной поддержкой от Азяра.</p>
+                        <div class="product-footer">
+                            <div class="product-price">2 990₽/мес</div>
+                            <button class="btn-primary" onclick="buyProduct('private')">Подписаться</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #0F3460 0%, #16213E 100%);">
+                        <div style="font-size: 60px;">📚</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">База знаний "Блог и Кошелек"</h3>
+                        <p class="product-desc">Полный комплект материалов для развития личного бренда и финансовой грамотности.</p>
+                        <div class="product-footer">
+                            <div class="product-price">7 990₽ <span>14 990₽</span></div>
+                            <button class="btn-primary" onclick="buyProduct('knowledge')">Купить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Privatka Screen -->
+        <div class="screen" id="screen-privatka">
+            <div class="privatka-hero">
+                <h2>🔒 Приватный канал</h2>
+                <p>Эксклюзивный контент для членов сообщества</p>
+            </div>
+
+            <div class="privatka-status">
+                <div class="status-card">
+                    <div class="status-icon">✓</div>
+                    <h3 class="status-title">Подписка активна</h3>
+                    <p class="status-text">У вас есть доступ к закрытому каналу</p>
+                    
+                    <div class="timer-box">
+                        <div class="timer-label">До окончания подписки:</div>
+                        <div class="timer-value" id="timer">27:14:35:42</div>
+                    </div>
+                    
+                    <button class="btn-primary" style="width: 100%;" onclick="openChannel()">Перейти в канал</button>
+                </div>
+            </div>
+
+            <h2 class="section-title">Что включено</h2>
+            <div class="products-grid">
+                <div class="menu-item" style="margin: 0 0 12px 0;">
+                    <div class="menu-icon">📹</div>
+                    <div class="menu-content">
+                        <div class="menu-title">Эксклюзивные видео</div>
+                    </div>
+                </div>
+                <div class="menu-item" style="margin: 0 0 12px 0;">
+                    <div class="menu-icon">🎙️</div>
+                    <div class="menu-content">
+                        <div class="menu-title">Прямые эфиры</div>
+                    </div>
+                </div>
+                <div class="menu-item" style="margin: 0 0 12px 0;">
+                    <div class="menu-icon">💬</div>
+                    <div class="menu-content">
+                        <div class="menu-title">Личная поддержка</div>
+                    </div>
+                </div>
+                <div class="menu-item" style="margin: 0 0 12px 0;">
+                    <div class="menu-icon">🎁</div>
+                    <div class="menu-content">
+                        <div class="menu-title">Бонусы и подарки</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tracker Screen -->
+        <div class="screen" id="screen-tracker">
+            <div class="tracker-header">
+                <p class="tracker-date">Сегодня, 4 марта 2026</p>
+                <div class="tracker-progress">
+                    <div class="progress-circle">
+                        <span class="progress-text">65%</span>
+                    </div>
+                    <div class="progress-info">
+                        <h3>День 42 из 90</h3>
+                        <p>Ты на верном пути! Продолжай в том же духе</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Ежедневные практики</h2>
+            <div class="habits-list">
+                <div class="habit-item">
+                    <div class="habit-checkbox checked" onclick="toggleHabit(this)">✓</div>
+                    <div class="habit-content">
+                        <div class="habit-title">Утренняя медитация (10 мин)</div>
+                        <div class="habit-streak">🔥 Серия: 12 дней</div>
+                    </div>
+                </div>
+                <div class="habit-item">
+                    <div class="habit-checkbox checked" onclick="toggleHabit(this)">✓</div>
+                    <div class="habit-content">
+                        <div class="habit-title">Голосовые упражнения</div>
+                        <div class="habit-streak">🔥 Серия: 8 дней</div>
+                    </div>
+                </div>
+                <div class="habit-item">
+                    <div class="habit-checkbox" onclick="toggleHabit(this)"></div>
+                    <div class="habit-content">
+                        <div class="habit-title">Чтение (30 минут)</div>
+                        <div class="habit-streak">🔥 Серия: 5 дней</div>
+                    </div>
+                </div>
+                <div class="habit-item">
+                    <div class="habit-checkbox checked" onclick="toggleHabit(this)">✓</div>
+                    <div class="habit-content">
+                        <div class="habit-title">Спорт / Тренировка</div>
+                        <div class="habit-streak">🔥 Серия: 15 дней</div>
+                    </div>
+                </div>
+                <div class="habit-item">
+                    <div class="habit-checkbox" onclick="toggleHabit(this)"></div>
+                    <div class="habit-content">
+                        <div class="habit-title">Прослушать подкаст</div>
+                        <div class="habit-streak">🔥 Серия: 21 день</div>
+                    </div>
+                </div>
+                <div class="habit-item">
+                    <div class="habit-checkbox" onclick="toggleHabit(this)"></div>
+                    <div class="habit-content">
+                        <div class="habit-title">Вечерний дневник благодарности</div>
+                        <div class="habit-streak">🔥 Серия: 3 дня</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Статистика недели</h2>
+            <div class="stats-row" style="padding-top: 0;">
+                <div class="stat-card">
+                    <div class="stat-number">85%</div>
+                    <div class="stat-label">Выполнено</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">42</div>
+                    <div class="stat-label">Дней подряд</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">156</div>
+                    <div class="stat-label">Всего задач</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Knowledge Screen -->
+        <div class="screen" id="screen-knowledge">
+            <h2 class="section-title">База знаний</h2>
+            <div class="knowledge-categories">
+                <div class="category-chip active">Все</div>
+                <div class="category-chip">Видео</div>
+                <div class="category-chip">Аудио</div>
+                <div class="category-chip">Статьи</div>
+                <div class="category-chip">Гайды</div>
+            </div>
+
+            <div class="materials-list">
+                <div class="material-card">
+                    <div class="material-icon">🎥</div>
+                    <div class="material-content">
+                        <div class="material-title">Как развить уверенную речь</div>
+                        <div class="material-meta">Видео • 45 мин • Урок 1 из 10</div>
+                        <div class="material-progress">
+                            <div class="material-progress-bar" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">🎧</div>
+                    <div class="material-content">
+                        <div class="material-title">Подкаст: Сила мышления</div>
+                        <div class="material-meta">Аудио • 25 мин • Эпизод 42</div>
+                        <div class="material-progress">
+                            <div class="material-progress-bar" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">📄</div>
+                    <div class="material-content">
+                        <div class="material-title">Чек-лист: Утренняя рутина</div>
+                        <div class="material-meta">PDF • 5 страниц</div>
+                        <div class="material-progress">
+                            <div class="material-progress-bar" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">🎥</div>
+                    <div class="material-content">
+                        <div class="material-title">Техники дыхания для спикеров</div>
+                        <div class="material-meta">Видео • 30 мин • Урок 2 из 10</div>
+                        <div class="material-progress">
+                            <div class="material-progress-bar" style="width: 45%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">📄</div>
+                    <div class="material-content">
+                        <div class="material-title">Гайд по построению личного бренда</div>
+                        <div class="material-meta">PDF • 25 страниц</div>
+                        <div class="material-progress">
+                            <div class="material-progress-bar" style="width: 20%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">🎧</div>
+                    <div class="material-content">
+                        <div class="material-title">Медитация для уверенности</div>
+                        <div class="material-meta">Аудио • 15 мин</div>
+                        <div class="material-progress">
+                            <div class="material-progress-bar" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Screen -->
+        <div class="screen" id="screen-profile">
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar">АП</div>
+                <h2 class="profile-name" id="profileName">Азяр Апгрейд</h2>
+                <p class="profile-status">Участник приватного канала</p>
+            </div>
+
+            <div class="profile-menu">
+                <div class="menu-item" onclick="showToast('История покупок')">
+                    <div class="menu-icon">🛒</div>
+                    <div class="menu-content">
+                        <div class="menu-title">История покупок</div>
+                    </div>
+                    <div class="menu-arrow">›</div>
+                </div>
+
+                <div class="menu-item" onclick="showToast('Мои курсы')">
+                    <div class="menu-icon">📚</div>
+                    <div class="menu-content">
+                        <div class="menu-title">Мои курсы</div>
+                    </div>
+                    <div class="menu-arrow">›</div>
+                </div>
+
+                <div class="menu-item" onclick="showToast('Настройки')">
+                    <div class="menu-icon">⚙️</div>
+                    <div class="menu-content">
+                        <div class="menu-title">Настройки</div>
+                    </div>
+                    <div class="menu-arrow">›</div>
+                </div>
+
+                <div class="menu-item" onclick="showToast('Поддержка')">
+                    <div class="menu-icon">💬</div>
+                    <div class="menu-content">
+                        <div class="menu-title">Поддержка</div>
+                    </div>
+                    <div class="menu-arrow">›</div>
+                </div>
+
+                <div class="menu-item" onclick="showAboutModal()">
+                    <div class="menu-icon">ℹ️</div>
+                    <div class="menu-content">
+                        <div class="menu-title">О проекте Азяр Апгрейд</div>
+                    </div>
+                    <div class="menu-arrow">›</div>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <div class="social-link" onclick="openLink('https://t.me/Azyar_Upgrade')">📱</div>
+                <div class="social-link" onclick="openLink('https://www.tiktok.com/@.upgrade_motivation')">🎵</div>
+                <div class="social-link" onclick="openLink('https://instagram.com/ronny_upgrade')">📸</div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-item active" onclick="showScreen('dashboard', this)">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Главная</span>
+            </div>
+            <div class="nav-item" onclick="showScreen('products', this)">
+                <span class="nav-icon">🛍️</span>
+                <span class="nav-label">Продукты</span>
+            </div>
+            <div class="nav-item" onclick="showScreen('privatka', this)">
+                <span class="nav-icon">🔒</span>
+                <span class="nav-label">Приватка</span>
+            </div>
+            <div class="nav-item" onclick="showScreen('tracker', this)">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Трекер</span>
+            </div>
+            <div class="nav-item" onclick="showScreen('knowledge', this)">
+                <span class="nav-icon">📖</span>
+                <span class="nav-label">База</span>
+            </div>
+            <div class="nav-item" onclick="showScreen('profile', this)">
+                <span class="nav-icon">👤</span>
+                <span class="nav-label">Профиль</span>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!--
+    ═══════════════════════════════════════════════════════════════
+    TODO: Backend Integration Guide
+    ═══════════════════════════════════════════════════════════════
+    
+    1. USER AUTHENTICATION:
+       - Endpoint: POST /api/auth/telegram
+       - Payload: { initData: tg.initData }
+       - Response: { user_id, token, subscription_end_date }
+    
+    2. PRODUCTS API:
+       - Endpoint: GET /api/products
+       - Response: [{ id, title, description, price, old_price, image, badge }]
+    
+    3. PAYMENT INTEGRATION:
+       - Telegram Stars: tg.openInvoice(url)
+       - CryptoPay: Create invoice via API, then tg.openInvoice()
+       - Webhook: POST /api/payments/webhook
+    
+    4. SUBSCRIPTION STATUS:
+       - Endpoint: GET /api/subscription/status
+       - Response: { is_active, end_date, channel_link }
+    
+    5. TRACKER SYNC:
+       - GET /api/tracker/habits
+       - POST /api/tracker/habits/{id}/complete
+    
+    6. KNOWLEDGE BASE:
+       - Endpoint: GET /api/materials
+       - Response: [{ id, title, type, duration, progress, content_url }]
+    
+    7. ANALYTICS:
+       - Track: page_views, button_clicks, purchases
+       - Endpoint: POST /api/analytics/event
+    ═══════════════════════════════════════════════════════════════
+    -->
+    
+    <script>
+        // Telegram Web App initialization
+        let tg = window.Telegram ? window.Telegram.WebApp : null;
+        
+        // Mock tg for browser testing
+        if (!tg) {
+            console.log('Telegram WebApp not detected, running in browser mode');
+            tg = {
+                expand: () => {},
+                setHeaderColor: () => {},
+                setBackgroundColor: () => {},
+                initDataUnsafe: {},
+                openLink: (url) => window.open(url, '_blank'),
+                openTelegramLink: (url) => window.open(url, '_blank'),
+                HapticFeedback: null
+            };
+        }
+        
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loading
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+            }, 1000);
+            
+            // Expand Web App
+            tg.expand();
+            
+            // Set header color
+            tg.setHeaderColor('#1A1A2E');
+            tg.setBackgroundColor('#0F0F1A');
+            
+            // Get user data
+            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                const user = tg.initDataUnsafe.user;
+                const firstName = user.first_name || 'А';
+                const lastName = user.last_name || '';
+                document.getElementById('userAvatar').textContent = firstName.charAt(0);
+                document.getElementById('profileAvatar').textContent = firstName.charAt(0) + lastName.charAt(0);
+                document.getElementById('profileName').textContent = firstName + (lastName ? ' ' + lastName : '');
+            }
+            
+            // Start timer
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        });
+        
+        // Screen navigation
+        function showScreen(screenName, navItem) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Show selected screen
+            document.getElementById('screen-' + screenName).classList.add('active');
+            
+            // Update nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Activate clicked nav item
+            if (navItem && navItem.classList) {
+                navItem.classList.add('active');
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+            
+            // Haptic feedback
+            if (tg && tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('light');
+            }
+        }
+        
+        // Habit toggle
+        function toggleHabit(element) {
+            element.classList.toggle('checked');
+            if (element.classList.contains('checked')) {
+                element.textContent = '✓';
+                showToast('Отлично! Практика выполнена ✓');
+            } else {
+                element.textContent = '';
+            }
+            
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('medium');
+            }
+        }
+        
+        // Buy product
+        function buyProduct(productId) {
+            showToast('Открываем оплату...');
+            
+            // Open invoice (example)
+            // tg.openInvoice('invoice_url');
+            
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred('success');
+            }
+        }
+        
+        // Open channel
+        function openChannel() {
+            const channelUrl = 'https://t.me/+JfbEBK_RZgw0YmRi';
+            if (tg && tg.openTelegramLink) {
+                tg.openTelegramLink(channelUrl);
+            } else {
+                window.open(channelUrl, '_blank');
+            }
+        }
+        
+        // Open external link
+        function openLink(url) {
+            if (tg && tg.openLink) {
+                tg.openLink(url);
+            } else {
+                window.open(url, '_blank');
+            }
+        }
+        
+        // Show toast
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+        
+        // Subscription timer - configurable end date
+        // TODO: Replace with actual subscription end date from backend
+        const SUBSCRIPTION_END_DATE = new Date();
+        SUBSCRIPTION_END_DATE.setDate(SUBSCRIPTION_END_DATE.getDate() + 27); // +27 days as example
+        SUBSCRIPTION_END_DATE.setHours(SUBSCRIPTION_END_DATE.getHours() + 14);
+        
+        function updateTimer() {
+            const now = new Date();
+            const diff = SUBSCRIPTION_END_DATE - now;
+            
+            if (diff <= 0) {
+                document.getElementById('timer').textContent = 'Подписка истекла';
+                return;
+            }
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('timer').textContent = 
+                `${days}д ${hours.toString().padStart(2, '0')}ч ${minutes.toString().padStart(2, '0')}м ${seconds.toString().padStart(2, '0')}с`;
+        }
+        
+        // Category chips
+        document.querySelectorAll('.category-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // About modal
+        function showAboutModal() {
+            document.getElementById('aboutModal').classList.add('show');
+            if (tg && tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('light');
+            }
+        }
+        
+        function closeAboutModal() {
+            document.getElementById('aboutModal').classList.remove('show');
+        }
+        
+        // Close modal on backdrop click
+        document.getElementById('aboutModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAboutModal();
+            }
+        });
+    </script>
+</body>
+</html>
